@@ -204,7 +204,9 @@ void qcom_configure_capsule_updates(void)
 
 	update_info.dfu_string = dfu_string;
 
-	// ret = patch_slot_status(desc);
-	// if (ret)
-	// 	log_err("Failed to patch slot status\n");
+	if (of_machine_is_compatible("qcom,qrb4210-rb2")) {
+		ret = patch_slot_status(desc);
+		if (ret)
+			log_err("Failed to patch slot status\n");
+	}
 }
