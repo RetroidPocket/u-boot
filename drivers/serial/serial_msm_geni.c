@@ -442,6 +442,28 @@ static int msm_serial_putc(struct udevice *dev, const char ch)
 	return 0;
 }
 
+static ssize_t msm_serial_puts(struct udevice *dev, const char *s, size_t len)
+{
+	struct msm_serial_data *priv = dev_get_priv(dev);
+	int max = (len + 4) / 4;
+	u32 chs;
+
+	for (int i = 0; i <= max; i++) {
+		writel(DEF_TX_WM, priv->base + SE_GENI_TX_WATERMARK_REG);
+		qcom_geni_serial_setup_tx(priv->base, i < max ? 4 : len % 4);
+
+		qcom_geni_serial_poll_bit(dev, SE_GENI_M_IRQ_STATUS,
+					M_TX_FIFO_WATERMARK_EN, true);
+
+		memcpy(&chs, s + i * 4, i < max ? 4 : len % 4);
+		writel(chs, priv->base + SE_GENI_TX_FIFOn);
+		writel(M_TX_FIFO_WATERMARK_EN, priv->base + SE_GENI_M_IRQ_CLEAR);
+		qcom_geni_serial_poll_tx_done(dev);
+	}
+
+	return len;
+}
+
 static int msm_serial_getc(struct udevice *dev)
 {
 	struct msm_serial_data *priv = dev_get_priv(dev);
@@ -484,6 +506,7 @@ static int msm_serial_pending(struct udevice *dev, bool input)
 
 static const struct dm_serial_ops msm_serial_ops = {
 	.putc = msm_serial_putc,
+	.puts = msm_serial_puts,
 	.pending = msm_serial_pending,
 	.getc = msm_serial_getc,
 	.setbrg = msm_serial_setbrg,
