@@ -174,6 +174,10 @@ static const struct {
 		"Firmware Management",
 		EFI_FIRMWARE_MANAGEMENT_PROTOCOL_GUID
 	},
+	{
+		"Absolute Pointer",
+		EFI_ABSOLUTE_POINTER_PROTOCOL_GUID
+	},
 	/* Configuration table GUIDs */
 	{
 		"ACPI table",
