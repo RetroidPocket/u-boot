@@ -452,6 +452,8 @@ int board_late_init(void)
 	/* Configure the dfu_string for capsule updates */
 	qcom_configure_capsule_updates();
 
+	//gunyah_init();
+
 	return 0;
 }
 
