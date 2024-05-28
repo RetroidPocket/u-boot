@@ -21,7 +21,8 @@
 
 struct efi_fw_image fw_images[] = {
 	{
-		.image_type_id = QUALCOMM_UBOOT_BOOT_IMAGE_GUID,
+		/* Filled in automatically */
+		.image_type_id = { { 0 } },
 		.fw_name = u"QUALCOMM-UBOOT",
 		.image_index = 1,
 	},
