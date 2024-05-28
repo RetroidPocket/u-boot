@@ -40,6 +40,7 @@ enum {
 
 static struct option options[] = {
 	{"guid", required_argument, NULL, 'g'},
+	{"dtb", required_argument, NULL, 'd'},
 	{"index", required_argument, NULL, 'i'},
 	{"instance", required_argument, NULL, 'I'},
 	{"fw-version", required_argument, NULL, 'v'},
