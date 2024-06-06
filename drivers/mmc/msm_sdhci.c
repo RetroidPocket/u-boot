@@ -195,13 +195,6 @@ static int msm_sdc_probe(struct udevice *dev)
 	host->mmc->priv = &prv->host;
 	upriv->mmc = host->mmc;
 
-	/*
-	 * FIXME: v5 controllers have a bug in U-Boot that causes all writes
-	 * greater than 1 block to fail. Work around this by setting b_max to 1.
-	 */
-	if (var_info->mci_removed)
-		plat->cfg.b_max = 1;
-
 	return sdhci_probe(dev);
 }
 
