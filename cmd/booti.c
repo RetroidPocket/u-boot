@@ -32,6 +32,7 @@ static int booti_start(struct bootm_info *bmi)
 	unsigned long comp_len;
 	unsigned long decomp_len;
 	int ctype;
+	char *endp;
 
 	ret = bootm_run_states(bmi, BOOTM_STATE_START);
 
@@ -41,7 +42,12 @@ static int booti_start(struct bootm_info *bmi)
 		debug("*  kernel: default image load address = 0x%08lx\n",
 				image_load_addr);
 	} else {
-		ld = hextoul(bmi->addr_img, NULL);
+		ld = hextoul(bmi->addr_img, &endp);
+		if (*endp != '\0') {
+			printf("## Invalid kernel image address: %s\n",
+			       bmi->addr_img);
+			return CMD_RET_USAGE;
+		}
 		debug("*  kernel: cmdline image address = 0x%08lx\n", ld);
 	}
 
@@ -108,6 +114,9 @@ int do_booti(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 
 	/* Consume 'booti' */
 	argc--; argv++;
+
+	if (argc && strcmp(argv[0], "-h") == 0)
+		return CMD_RET_USAGE;
 
 	bootm_init(&bmi);
 	if (argc)
