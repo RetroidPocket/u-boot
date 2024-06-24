@@ -477,8 +477,7 @@ dtb-$(CONFIG_TARGET_SL28) += fsl-ls1028a-kontron-sl28.dtb \
 
 dtb-$(CONFIG_TARGET_TEN64) += fsl-ls1088a-ten64.dtb
 
-dtb-$(CONFIG_ARCH_SNAPDRAGON) += sm8250-oneplus-kebab.dtb \
-	qcom-multi-dummy.dtb
+dtb-$(CONFIG_ARCH_SNAPDRAGON) += qcom-multi-dummy.dtb
 
 dtb-$(CONFIG_TARGET_STEMMY) += ste-ux500-samsung-stemmy.dtb
 
