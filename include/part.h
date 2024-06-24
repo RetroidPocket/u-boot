@@ -10,7 +10,7 @@
 #include <ide.h>
 #include <u-boot/uuid.h>
 #include <linker_lists.h>
-#include <linux/errno.h>
+#include <linux/err.h>
 #include <linux/list.h>
 
 struct block_drvr {
@@ -723,6 +723,16 @@ int part_get_type_by_name(const char *name);
  * Return:	first bootable partition, or 0 if there is none
  */
 int part_get_bootable(struct blk_desc *desc);
+
+#if IS_ENABLED(CONFIG_PARTITION_TYPE_GUID)
+struct udevice *part_get_by_guid(const char *guid, struct disk_partition **info);
+#else
+static inline struct udevice *part_get_by_guid(const char *guid, struct disk_partition **info)
+{
+	*info = NULL;
+	return ERR_PTR(-ENOSYS);
+}
+#endif
 
 #else
 static inline int part_driver_get_count(void)
