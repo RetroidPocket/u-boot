@@ -218,9 +218,14 @@ static int do_bind_unbind(struct cmd_tbl *cmdtp, int flag, int argc,
 	bool by_node;
 	bool probe = false;
 	int idx = 1;
+	struct udevice *dev;
 
-	if (argc < 2)
-		return CMD_RET_USAGE;
+	if (argc < 2) {
+		uclass_foreach_dev_probe(UCLASS_FIRMWARE, dev) {
+		 		log_info("Probed %s\n", dev->name);
+		 	}
+		return 0;
+	}
 
 	if (argc > 2) {
 		if (!strcmp(argv[1], "-p")) {
