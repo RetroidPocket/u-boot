@@ -159,8 +159,7 @@ void qcom_configure_capsule_updates(void)
 	 * FIXME: we should do this check once and use some proper API to expose the data.
 	 */
 	if (!ofnode_has_property(ofnode_path("/chosen"), "kaslr-seed")) {
-		log_debug("No initrd address present, skip as we might not be chainloaded\n");
-		return;
+		partname = "xbl";
 	}
 
 	if (IS_ENABLED(CONFIG_SCSI)) {
