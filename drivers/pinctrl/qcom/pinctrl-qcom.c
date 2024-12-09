@@ -111,6 +111,7 @@ static int msm_pinctrl_parse_ranges(struct udevice *dev)
 static int msm_pinctrl_probe(struct udevice *dev)
 {
 	struct msm_pinctrl_priv *priv = dev_get_priv(dev);
+	phys_addr_t north = dev_read_addr_name(dev, "north");
 	int ret;
 
 	priv->base = dev_read_addr(dev);
@@ -121,6 +122,12 @@ static int msm_pinctrl_probe(struct udevice *dev)
 		printf("Couldn't parse reserved GPIO ranges!\n");
 		return ret;
 	}
+
+	if (north == FDT_ADDR_T_NONE)
+		return -EINVAL;
+
+	/* Configure SDC2 pins default value to enable sdcard */
+	writel(0x1FE4, north + 0xb7000);
 
 	return priv->base == FDT_ADDR_T_NONE ? -EINVAL : 0;
 }
