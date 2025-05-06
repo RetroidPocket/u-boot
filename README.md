@@ -10,7 +10,7 @@ sudo apt install device-tree-compiler build-essential gcc-aarch64-linux-gnu binu
 ```
 
 ## Fetching the repositories
-`git clone https://github.com/RetroidPocket/u-boot.git -b retroidpocket-sm8250`
+`git clone https://github.com/RetroidPocket/u-boot.git -b retroidpocket/sm8250`
 
 ## Building from source
 
@@ -23,6 +23,15 @@ gzip .output/u-boot-nodtb.bin -c > .output/u-boot-nodtb.bin.gz
 cat .output/u-boot-nodtb.bin.gz .output/dts/upstream/src/arm64/qcom/sm8250-retroidpocket-rp5.dtb > .output/kernel-dtb
 mkbootimg --kernel_offset '0x00008000' --pagesize '4096' --kernel .output/kernel-dtb -o .output/u-boot.img --cmdline "nodtbo"
 ```
+For Retroid Pocket Flip2
+```
+cd u-boot
+make CROSS_COMPILE=aarch64-linux-gnu- O=.output qcom_defconfig retroidpocket.config
+make CROSS_COMPILE=aarch64-linux-gnu- O=.output -j$(nproc) DEVICE_TREE=qcom/sm8250-retroidpocket-flip2
+gzip .output/u-boot-nodtb.bin -c > .output/u-boot-nodtb.bin.gz
+cat .output/u-boot-nodtb.bin.gz .output/dts/upstream/src/arm64/qcom/sm8250-retroidpocket-flip2.dtb > .output/kernel-dtb
+mkbootimg --kernel_offset '0x00008000' --pagesize '4096' --kernel .output/kernel-dtb -o .output/u-boot.img --cmdline "nodtbo"
+```
 For Retroid Pocket Mini
 ```
 cd u-boot
@@ -30,6 +39,15 @@ make CROSS_COMPILE=aarch64-linux-gnu- O=.output qcom_defconfig retroidpocket.con
 make CROSS_COMPILE=aarch64-linux-gnu- O=.output -j$(nproc) DEVICE_TREE=qcom/sm8250-retroidpocket-rpmini
 gzip .output/u-boot-nodtb.bin -c > .output/u-boot-nodtb.bin.gz
 cat .output/u-boot-nodtb.bin.gz .output/dts/upstream/src/arm64/qcom/sm8250-retroidpocket-rpmini.dtb > .output/kernel-dtb
+mkbootimg --kernel_offset '0x00008000' --pagesize '4096' --kernel .output/kernel-dtb -o .output/u-boot.img --cmdline "nodtbo"
+```
+For Retroid Pocket Mini V2
+```
+cd u-boot
+make CROSS_COMPILE=aarch64-linux-gnu- O=.output qcom_defconfig retroidpocket.config
+make CROSS_COMPILE=aarch64-linux-gnu- O=.output -j$(nproc) DEVICE_TREE=qcom/sm8250-retroidpocket-rpminiv2
+gzip .output/u-boot-nodtb.bin -c > .output/u-boot-nodtb.bin.gz
+cat .output/u-boot-nodtb.bin.gz .output/dts/upstream/src/arm64/qcom/sm8250-retroidpocket-rpminiv2.dtb > .output/kernel-dtb
 mkbootimg --kernel_offset '0x00008000' --pagesize '4096' --kernel .output/kernel-dtb -o .output/u-boot.img --cmdline "nodtbo"
 ```
 
