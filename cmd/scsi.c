@@ -39,7 +39,7 @@ static int do_scsi(struct cmd_tbl *cmdtp, int flag, int argc,
 			return ret;
 		}
 		if (strncmp(argv[1], "scan", 4) == 0) {
-			ret = scsi_scan(true);
+			ret = scsi_scan(false);
 			if (ret)
 				return CMD_RET_FAILURE;
 			return ret;
